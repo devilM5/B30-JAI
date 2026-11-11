@@ -5,7 +5,6 @@ plugins {
 android {
     namespace 'com.appforge.aipb30'
     compileSdk 34
-    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.appforge.aipb30"

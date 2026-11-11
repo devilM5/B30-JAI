@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:hint="YouTube वीडियो का लिंक डालें"
         android:textColor="#FFFFFF"
-        android:hintTextColor="#94A3B8"
+        android:textColorHint="#94A3B8"
         android:singleLine="true"
         android:inputType="textUri"/>
 
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:hint="अपना सवाल लिखें"
         android:textColor="#FFFFFF"
-        android:hintTextColor="#94A3B8"
+        android:textColorHint="#94A3B8"
         android:inputType="textMultiLine"
         android:maxLines="3"/>
     <Button

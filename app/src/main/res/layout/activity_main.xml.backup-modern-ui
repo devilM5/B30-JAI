@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0B1220"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PB-30 JAI"
+        android:textColor="#40C4FF"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Personal AI Assistant"
+        android:textColor="#34D399"
+        android:gravity="center"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#111D30"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/chatText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="नमस्ते! मैं PB-30 JAI हूँ।"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"/>
+    </ScrollView>
+    <EditText
+        android:id="@+id/youtubeInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="YouTube वीडियो का लिंक डालें"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#94A3B8"
+        android:singleLine="true"
+        android:inputType="textUri"/>
+
+    <Button
+        android:id="@+id/youtubeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Learn from YouTube"/>
+
+    <EditText
+        android:id="@+id/messageInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="अपना सवाल लिखें"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#94A3B8"
+        android:inputType="textMultiLine"
+        android:maxLines="3"/>
+    <Button
+        android:id="@+id/voiceBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🎤 बोलकर बात करें"/>
+
+    <Button
+        android:id="@+id/sendBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send"/>
+
+    <Button
+        android:id="@+id/historyBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Conversation History"/>
+
+</LinearLayout>

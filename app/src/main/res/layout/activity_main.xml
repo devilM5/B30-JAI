@@ -3,52 +3,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#3B82F615"
+    android:background="#0B1220"
     android:padding="16dp">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="16dp">
+        android:text="PB-30 JAI"
+        android:textColor="#40C4FF"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/scoreLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Score: 0"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#3B82F6"
-            android:layout_marginEnd="24dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Personal AI Assistant"
+        android:textColor="#34D399"
+        android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/levelLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Level: 1"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#10B981" />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/gameArea"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#3B82F6"
-        android:alpha="0.1" />
+        android:background="#111D30"
+        android:padding="12dp">
 
-    <Button
-        android:id="@+id/startBtn"
+        <TextView
+            android:id="@+id/chatText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="नमस्ते! मैं PB-30 JAI हूँ।"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"/>
+    </ScrollView>
+    <EditText
+        android:id="@+id/youtubeInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Game"
-        android:backgroundTint="#F59E0B"
+        android:hint="YouTube वीडियो का लिंक डालें"
         android:textColor="#FFFFFF"
-        android:layout_marginTop="16dp"
-        android:textSize="18sp"
-        android:padding="12dp" />
+        android:hintTextColor="#94A3B8"
+        android:singleLine="true"
+        android:inputType="textUri"/>
+
+    <Button
+        android:id="@+id/youtubeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Learn from YouTube"/>
+
+    <EditText
+        android:id="@+id/messageInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="अपना सवाल लिखें"
+        android:textColor="#FFFFFF"
+        android:hintTextColor="#94A3B8"
+        android:inputType="textMultiLine"
+        android:maxLines="3"/>
+    <Button
+        android:id="@+id/voiceBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🎤 बोलकर बात करें"/>
+
+    <Button
+        android:id="@+id/sendBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send"/>
+
+    <Button
+        android:id="@+id/historyBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Conversation History"/>
+
 </LinearLayout>

@@ -4,3 +4,6 @@ build/
 app/build/
 *.iml
 .idea/
+
+# Firebase private configuration
+app/google-services.json

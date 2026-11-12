@@ -1,6 +1,7 @@
 package com.appforge.aipb30;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.Manifest;
 import android.content.Intent;
@@ -16,6 +17,16 @@ import android.widget.Toast;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.appcheck.FirebaseAppCheck;
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory;
+import com.google.firebase.ai.FirebaseAI;
+import com.google.firebase.ai.GenerativeModel;
+import com.google.firebase.ai.java.GenerativeModelFutures;
+import com.google.firebase.ai.type.Content;
+import com.google.firebase.ai.type.GenerateContentResponse;
+import com.google.firebase.ai.type.GenerativeBackend;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.MoreExecutors;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -26,6 +37,7 @@ public class AiPb30Activity extends Activity {
     private TextView chatText;
     private EditText messageInput;
     private TextToSpeech tts;
+    private GenerativeModelFutures geminiModel;
     private SharedPreferences memory;
 
     @Override
@@ -35,6 +47,10 @@ public class AiPb30Activity extends Activity {
         FirebaseApp.initializeApp(this);
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
         firebaseAppCheck.installAppCheckProviderFactory(DebugAppCheckProviderFactory.getInstance());
+        GenerativeModel ai = FirebaseAI.getInstance(GenerativeBackend.googleAI())
+                .generativeModel("gemini-3.8-flash");
+        geminiModel = GenerativeModelFutures.from(ai);
+
         setContentView(R.layout.activity_main);
 
         chatText = findViewById(R.id.chatText);
@@ -112,14 +128,60 @@ public class AiPb30Activity extends Activity {
         if (message.isEmpty()) return;
 
         addChat("तुम: " + message);
-
-        String reply = "मैंने तुम्हारी बात सुन ली है। अभी AI API कनेक्ट करना बाकी है।";
-        addChat("PB-30 JAI: " + reply);
-
-        if (tts != null) {
-            tts.speak(reply, TextToSpeech.QUEUE_FLUSH, null, "PB30_REPLY");
-        }
         messageInput.setText("");
+
+        new AlertDialog.Builder(this)
+                .setTitle("Google Gemini को सवाल भेजें?")
+                .setMessage("क्या तुम इस सवाल को Google Gemini को भेजने की अनुमति देते हो? केवल यही सवाल भेजा जाएगा। पुरानी बातचीत, Memory या फाइलें नहीं भेजी जाएँगी।")
+                .setPositiveButton("हाँ, भेजो", (dialog, which) -> callGemini(message))
+                .setNegativeButton("नहीं", (dialog, which) -> {
+                    String reply = "ठीक है। तुम्हारा सवाल Google को नहीं भेजा गया।";
+                    addChat("PB-30 JAI: " + reply);
+                    if (tts != null) {
+                        tts.speak(reply, TextToSpeech.QUEUE_FLUSH, null, "PB30_REPLY");
+                    }
+                })
+                .show();
+    }
+
+    private void callGemini(String message) {
+        addChat("PB-30 JAI: Gemini से जवाब ला रहा हूँ...");
+
+        Content prompt = new Content.Builder()
+                .addText(message)
+                .build();
+
+        try {
+            Futures.addCallback(
+                    geminiModel.generateContent(prompt),
+                    new FutureCallback<GenerateContentResponse>() {
+                        @Override
+                        public void onSuccess(GenerateContentResponse result) {
+                            runOnUiThread(() -> {
+                                String reply = result.getText();
+                                if (reply == null || reply.trim().isEmpty()) {
+                                    reply = "Gemini से खाली जवाब मिला।";
+                                }
+                                addChat("PB-30 JAI: " + reply);
+                                if (tts != null) {
+                                    tts.speak(reply, TextToSpeech.QUEUE_FLUSH, null, "PB30_REPLY");
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(Throwable error) {
+                            runOnUiThread(() -> {
+                                String reply = "Gemini से जवाब नहीं मिला: " + error.getMessage();
+                                addChat("PB-30 JAI: " + reply);
+                            });
+                        }
+                    },
+                    MoreExecutors.directExecutor()
+            );
+        } catch (Exception error) {
+            addChat("PB-30 JAI: Gemini शुरू नहीं हो पाया: " + error.getMessage());
+        }
     }
 
     private void addChat(String line) {
